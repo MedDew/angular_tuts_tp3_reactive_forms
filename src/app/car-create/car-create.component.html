@@ -1,0 +1,51 @@
+<div class="carForm">
+  <form [formGroup]="carForm" novalidate (ngSubmit)="onSubmit()">
+    <label for="brand">Brand : </label>
+    <br/>
+    <input type="text" id="brand" formControlName="brand" placeholder="Brand"/><!---->
+    <!-- <div *ngIf="carForm.controls.model.errors" class="alert alert-danger"> -->
+    <!-- <div *ngIf="(carForm.get('brand').touched || carForm.get('brand').dirty) && carForm.get('brand').hasError('required')" class="alert alert-danger"> -->
+    <div *ngIf="(carForm.controls.brand.touched || carForm.controls.brand.dirty)">
+      <div *ngIf="carForm.controls.brand.errors != null && carForm.controls.brand.errors.required" class="alert alert-danger">
+        Please enter a car brand
+      </div>
+
+      <!--<div *ngIf="(carForm.get('brand').touched || carForm.get('brand').dirty) && carForm.get('brand').hasError('appForbiddenCar')" class="alert alert-danger">-->
+      <div *ngIf="carForm.controls.brand.errors != null && carForm.controls.brand.errors.appForbiddenCar" class="alert alert-danger">
+        The brand : <b>{{carForm.controls.brand.value}}</b> is  forbidden
+      </div>
+    </div>
+    
+    <br/>
+    <br/>
+    
+    <label for="model">Model : </label>
+    <br/>
+    <input type="text" id="model" formControlName="model" placeholder="Model"/><!---->
+    <!-- <div *ngFor="let error of carForm.get('model').errors">
+      {{error}}
+    </div> -->
+    <div *ngIf="submitted"><!--&& carForm.get('model').errors-->
+      <div *ngIf="carForm.get('model').hasError('required')" class="alert alert-danger">
+        Please enter a car model
+      </div>
+      
+      <div *ngIf="carForm.get('model').hasError('minlength')" class="alert alert-danger">
+        The brand is too short: it has to be at 2 characters long
+      </div>
+
+      <div *ngIf="carForm.get('model').hasError('validBrand')" class="alert alert-danger">
+        The brand <b>{{ carForm.get('model').value }}</b> is forbidden;
+      </div>
+    </div>
+    <div>Is form submitted : {{submitted}}</div>
+
+    <br/>
+    <br/>
+    <input type="submit"  value="Create Car"/><!--[disabled]="!carForm.valid"-->
+  </form>
+
+  <div *ngIf="isCarCreated">
+    The car <b>{{createdCar.brand}} {{createdCar.model}}</b> has been created with id : <b>{{createdCar.id}} </b>
+  </div>
+</div>
